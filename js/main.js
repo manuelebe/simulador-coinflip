@@ -2,11 +2,12 @@ let opcion;
 let resultado;
 let lado;
 
-function moneda(cara, cruz){
-    return Math.floor(Math.random() * (cruz - cara) ) + cara;
+function moneda(){
+    return Math.floor(Math.random() * 2) + 1;
 }
 function resultadoMoneda(){
-    resultado = moneda(1, 3);
+    resultado = moneda();
+    console.log(resultado);
     if (resultado === 1){
         lado = "cara";
     } else if (resultado === 2){
