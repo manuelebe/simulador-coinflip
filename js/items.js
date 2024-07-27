@@ -1,0 +1,107 @@
+const itemlist = [
+    {
+        nombre: "Daga",
+        puntaje: 50,
+        src: "./imagenes/iconos/dagger.webp",
+    },
+    {
+        nombre: "Espada larga",
+        puntaje: 100,
+        src: "./imagenes/iconos/long_sword.webp",
+    },
+    {
+        nombre: "Arco",
+        puntaje: 100,
+        src: "./imagenes/iconos/short_bow.webp",
+    },
+    {
+        nombre: "Claymore",
+        puntaje: 200,
+        src: "./imagenes/iconos/claymore.webp",
+    },
+    {
+        nombre: "Espada oriental",
+        puntaje: 200,
+        src: "./imagenes/iconos/eastern_sword.webp",
+    },
+    {
+        nombre: "Pecado azul",
+        puntaje: 300,
+        src: "./imagenes/iconos/blue_sin.webp",
+    },
+    {
+        nombre: "Miasma",
+        puntaje: 500,
+        src: "./imagenes/iconos/miasma.webp",
+    },
+    {
+        nombre: "Escudo de cresta de águila",
+        puntaje: 100,
+        src: "./imagenes/iconos/eagle_crest_shield.webp",
+    },
+    {
+        nombre: "Casco de cuero",
+        puntaje: 100,
+        src: "./imagenes/iconos/leather_helmet.webp",
+    },
+    {
+        nombre: "Mascara de hierro",
+        puntaje: 200,
+        src: "./imagenes/iconos/iron_mask.webp",
+    },
+    {
+        nombre: "Bacinete demacrado",
+        puntaje: 300,
+        src: "./imagenes/iconos/gaunt_bascinet.webp",
+    },
+    {
+        nombre: "Chaleco de cuero",
+        puntaje: 100,
+        src: "./imagenes/iconos/leather_vest.webp",
+    },
+    {
+        nombre: "Coraza de hierro",
+        puntaje: 200,
+        src: "./imagenes/iconos/plate_mail.webp",
+    },
+    {
+        nombre: "Armadura demacrada",
+        puntaje: 300,
+        src: "./imagenes/iconos/gaunt_plate_armor.webp",
+    },
+    {
+        nombre: "Amuleto de Yggaegetsu",
+        puntaje: 200,
+        src: "./imagenes/iconos/charm.webp",
+    },
+    {
+        nombre: "Protección de brazos",
+        puntaje: 100,
+        src: "./imagenes/iconos/arm_guards.webp",
+    },
+    {
+        nombre: "Protección de piernas",
+        puntaje: 100,
+        src: "./imagenes/iconos/leg_guards.webp",
+    },
+    {
+        nombre: "Cerdito piña",
+        puntaje: 1,
+        src: "./imagenes/iconos/pinecone_pig.webp",
+    },
+    {
+        nombre: "Piedra de alma",
+        puntaje: 200,
+        src: "./imagenes/iconos/soul_stone.webp",
+    },
+    {
+        nombre: "Libro de la iluminación",
+        puntaje: 300,
+        src: "./imagenes/iconos/book_of_enlightenment.webp",
+    },
+    {
+        nombre: "Pergamino vacío",
+        puntaje: 300,
+        src: "./imagenes/iconos/empty_scroll.webp",
+    },
+]
