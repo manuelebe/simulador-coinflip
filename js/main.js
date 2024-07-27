@@ -76,6 +76,7 @@ function items(){
     inventario.forEach(el => {
         crearCard(el);
     })
+    alert("Recibiste: " + itemlist[resultado].nombre + "\nPuntaje: " + itemlist[resultado].puntaje);
     puntos.unshift(itemlist[resultado].puntaje);
     let puntajeTotal = 0;
     puntos.forEach(el => puntajeTotal += el);
@@ -93,7 +94,7 @@ personaje.forEach(el => {
 })
 
 do{
-    opcion = prompt("Bienvenido al simulador de cara o cruz.\n\n Ingresá 'cara' o 'cruz' para continuar\n Ingresá 'salir' para salir.").toUpperCase();
+    opcion = prompt("Bienvenido al simulador de cara o cruz.\nGirá una moneda, si acertás el resultado vas a recibir un objeto y un puntaje dependiendo de que objeto recibas.\n\nIngresá 'cara' o 'cruz' para continuar\nIngresá 'salir' para salir.").toUpperCase();
     if(opcion === "SALIR"){
         alert("Saliste exitosamente.");
     } else if(opcion === "CARA"){
