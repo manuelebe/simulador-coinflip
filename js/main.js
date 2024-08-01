@@ -6,7 +6,7 @@ const puntajeContainer = document.getElementById("puntajeContainer");
 const topContainer = document.getElementById("topContainer");
 
 const personaje = [];
-const inventario = [];
+const inventarioCrear = [];
 const puntos = [];
 const totalPuntos = [];
 
@@ -72,8 +72,8 @@ function calcularPuntos(point){
 }
 function items(){
     resultado = itemRandom();
-    inventario.unshift(itemlist[resultado]);
-    inventario.forEach(el => {
+    inventarioCrear.unshift(itemlist[resultado]);
+    inventarioCrear.forEach(el => {
         crearCard(el);
     })
     alert("Recibiste: " + itemlist[resultado].nombre + "\nPuntaje: " + itemlist[resultado].puntaje);
@@ -83,7 +83,7 @@ function items(){
     totalPuntos.unshift(puntajeTotal);
 }
 function clearItems(){
-    inventario.shift();
+    inventarioCrear.shift();
     totalPuntos.shift();
 }
 
@@ -111,6 +111,7 @@ do{
         resultadoMoneda();
         if (lado === "cruz"){
             alert("¡El resultado es " + lado + ". Ganaste!");
+            clearItems();
             items();
         }
         if (lado === "cara"){
