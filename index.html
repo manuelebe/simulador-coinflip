@@ -6,20 +6,41 @@
     <link rel="shortcut icon" href="./imagenes/coin.webp" type="image/x-icon">
     <link rel="stylesheet" href="./css/estilo.css">
     <title>Simulador de cara o cruz</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 </head>
 <body>
     <img src="./imagenes/dungeon1.webp" class="background">
-    <main>
+    <main id="main">
         <div id="topContainer">
+            <form id="formNombre">
+                <input type="text" minlength="1" maxlength="10" placeholder="Insertar personaje" required oninvalid="this.setCustomValidity('Ingresa un nombre')"
+                oninput="this.setCustomValidity('')" id="inputNombre">
+            </form>
             <div id="puntajeContainer">
-                <h2 class="puntaje__text">Puntaje total:</h2>
+                <h2 class="puntajeText">Puntaje total: 0</h2>
             </div>
         </div>
-        <div class="inventario">
-            <h2 class="inventario__text">Inventario:</h2>
+        <div id="coinContainer">
+            <img src="./imagenes/coin.webp" id="coinImg">
+            <div id="opcionesContainer">
+                <button id="botonCara" class="boton">
+                    <h2>CARA</h2>
+                </button>
+                <button id="botonCruz" class="boton">
+                    <h2>CRUZ</h2>
+                </button>
+            </div>
         </div>
-        <div id="container">
-            
+        <div id="mensajeContainer"></div>
+        <div class="inventario">
+            <h2 class="inventarioText">Inventario:</h2>
+        </div>
+        <div id="containerInventario"></div>
+        <div id="containerHighscore">
+            <h2 id="highscoreText">Puntaje más alto: 0</h2>
         </div>
     </main>
     <script src="./js/items.js"></script>

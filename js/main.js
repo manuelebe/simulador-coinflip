@@ -1,20 +1,27 @@
-let opcion;
 let resultado;
 let lado;
-
+const documentMain = document.getElementById("main");
 const puntajeContainer = document.getElementById("puntajeContainer");
 const topContainer = document.getElementById("topContainer");
+const containerInventario = document.getElementById("containerInventario");
+const botonCara = document.getElementById("botonCara");
+const botonCruz = document.getElementById("botonCruz");
+const puntajeText = document.querySelector(".puntajeText");
+const botones = document.querySelectorAll(".boton");
+const formNombre = document.getElementById("formNombre");
+const inputNombre = document.getElementById("inputNombre");
+const mensajeContainer = document.getElementById("mensajeContainer");
+const coinImg = document.getElementById("coinImg");
+const coinContainer = document.getElementById("coinContainer");
+const ultimoHighscore = parseFloat(localStorage.getItem("puntaje"));
+const highscoreText = document.getElementById("highscoreText");
 
 const personaje = [];
 const inventarioCrear = [];
 const puntos = [];
 const totalPuntos = [];
 
-class Objeto{
-    constructor(nombre){
-        this.nombre = nombre;
-    }
-}
+//--------------------------------------------------------------------------------
 
 function moneda(){
     return Math.floor(Math.random() * 2) + 1;
@@ -27,23 +34,10 @@ function resultadoMoneda(){
         lado = "cruz";
     }
 }
-
-function crearPersonaje(nombrePersonaje){
-    const card = document.createElement("div");
-    card.className = "charDiv";
-
-    const nombre = document.createElement("h2");
-    nombre.innerText = nombrePersonaje.nombre;
-    nombre.className = "nombre__personaje"
-
-    card.append(nombre);
-    topContainer.append(card);
-}
-
 function itemRandom(){
     return Math.floor(Math.random() * 21);
 }
-function crearCard(item){
+function crearItem(item){
     const card = document.createElement("div");
     card.className = "itemCard";
 
@@ -62,70 +56,131 @@ function crearCard(item){
     card.append(imgItem);
     card.append(nombreItem);
     card.append(puntajeItem);
-    container.append(card);
+    containerInventario.append(card);
 }
-function calcularPuntos(point){
-    const puntosText = document.createElement("h2");
-    puntosText.innerText = point;
-    puntosText.className = "puntaje__text puntaje__total"
-    puntajeContainer.append(puntosText);
+function crearPersonaje(el){
+    el.preventDefault();
+    const nombreText = document.createElement("h2");
+    nombreText.innerText = inputNombre.value;
+    nombreText.className = "nombreText";
+
+    topContainer.prepend(nombreText);
+    inputNombre.remove();
 }
 function items(){
     resultado = itemRandom();
     inventarioCrear.unshift(itemlist[resultado]);
     inventarioCrear.forEach(el => {
-        crearCard(el);
+        crearItem(el);
     })
-    alert("Recibiste: " + itemlist[resultado].nombre + "\nPuntaje: " + itemlist[resultado].puntaje);
     puntos.unshift(itemlist[resultado].puntaje);
+    
     let puntajeTotal = 0;
     puntos.forEach(el => puntajeTotal += el);
     totalPuntos.unshift(puntajeTotal);
+    if(isNaN(ultimoHighscore) || totalPuntos[0] > ultimoHighscore){
+        highscoreText.innerText = "Puntaje más alto: " + totalPuntos[0];
+        localStorage.puntaje = totalPuntos[0];
+    }
 }
 function clearItems(){
     inventarioCrear.shift();
     totalPuntos.shift();
 }
-
-const nuevoObjeto = new Objeto(prompt("Ingresa el nombre de tu personaje"));
-personaje.unshift(nuevoObjeto);
-personaje.forEach(el => {
-    crearPersonaje(el);
-})
-
-do{
-    opcion = prompt("Bienvenido al simulador de cara o cruz.\nGirá una moneda, si acertás el resultado vas a recibir un objeto y un puntaje dependiendo de que objeto recibas.\n\nIngresá 'cara' o 'cruz' para continuar\nIngresá 'salir' para salir.").toUpperCase();
-    if(opcion === "SALIR"){
-        alert("Saliste exitosamente.");
-    } else if(opcion === "CARA"){
-        resultadoMoneda();
-        if (lado === "cara"){
-            alert("¡El resultado es " + lado + ". Ganaste!");
-            clearItems();
-            items();
-        }
-        if (lado === "cruz"){
-            alert("El resultado es " + lado + ". Perdiste...");
-        }
-    } else if (opcion === "CRUZ"){
-        resultadoMoneda();
-        if (lado === "cruz"){
-            alert("¡El resultado es " + lado + ". Ganaste!");
-            clearItems();
-            items();
-        }
-        if (lado === "cara"){
-            alert("El resultado es " + lado + ". Perdiste...");
-        }
-    } else{
-        alert("Ingresa una opción valida.");
+function crearMoneda(){
+    coinImg?.remove();
+    if(lado === "cara"){
+        const coinResultado = document.createElement("img");
+        coinResultado.src = "./imagenes/cara.webp";
+        coinResultado.className = "coinResultado animate__animated animate__flip";
+        coinContainer.prepend(coinResultado);
     }
-} while(opcion !== "SALIR"){
-    totalPuntos.forEach(el => {
-        calcularPuntos(el);
-    })
+    if(lado === "cruz"){
+        const coinResultado = document.createElement("img");
+        coinResultado.src = "./imagenes/cruz.webp";
+        coinResultado.className = "coinResultado animate__animated animate__flip";
+        coinContainer.prepend(coinResultado);
+    }
+}
+function alertWin(){
+    const card = document.createElement("div");
+    card.className = "mensajeCard";
+
+    const mensajeText = document.createElement("h2");
+    mensajeText.innerText = "Recibiste";
+    mensajeText.className = "mensajeText";
+
+    const itemText = document.createElement("h2");
+    itemText.innerText = inventarioCrear[0].nombre + "!";
+    itemText.className = "mensajeItem";
+
+    card.append(mensajeText);
+    card.append(itemText);
+    mensajeContainer.append(card);
+}
+function alertFail(){
+    const card = document.createElement("div");
+    card.className = "mensajeCard";
+
+    const mensajeText = document.createElement("h2");
+    mensajeText.innerText = "Desafortunadamente no recibiste nada...";
+    mensajeText.className = "mensajeText";
+
+    card.append(mensajeText);
+    mensajeContainer.append(card);
+}
+function clearAlert(){
+    const removeCoinResultado = document.querySelector(".coinResultado");
+    const mensajeCard = document.querySelector(".mensajeCard");
+    removeCoinResultado?.remove();
+    mensajeCard?.remove();
 }
 
-const itemsValiosos = itemlist.filter(el => el.puntaje >= 300);
-console.log(itemsValiosos);
-// no se me ocurre como añadir el filtrado al proyecto
+//--------------------------------------------------------------------------------
+
+formNombre.addEventListener("submit", crearPersonaje);
+
+if(isNaN(ultimoHighscore)){
+    highscoreText.innerText = "Puntaje más alto: 0";
+} else{
+    highscoreText.innerText = "Puntaje más alto: " + localStorage.puntaje;
+}
+
+botones.forEach(function(el){
+    el.addEventListener("mousedown", function(){
+        el.className = "boton botonDown";
+    })
+    el.addEventListener("mouseup", function(){
+        el.className = "boton";
+    })
+})
+botonCara.addEventListener("click", () =>{
+    resultadoMoneda();
+    if(lado === "cara"){
+        clearItems();
+        items();
+        puntajeText.innerText = "Puntaje total: " + totalPuntos[0];
+        clearAlert();
+        alertWin();
+        crearMoneda();
+    } else{
+        clearAlert();
+        alertFail();
+        crearMoneda();
+    }
+})
+botonCruz.addEventListener("click", () =>{
+    resultadoMoneda();
+    if(lado === "cruz"){
+        clearItems();
+        items();
+        puntajeText.innerText = "Puntaje total: " + totalPuntos[0];
+        clearAlert();
+        alertWin();
+        crearMoneda();
+    } else{
+        clearAlert();
+        alertFail();
+        crearMoneda();
+    }
+})
