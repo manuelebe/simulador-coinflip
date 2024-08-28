@@ -26,14 +26,14 @@ body{
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        margin-top: 50px;
+        margin-top: 20px;
         margin-bottom: 50px;
         #topContainer{
             width: 800px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 70px;
+            margin-bottom: 20px;
             background-color: #00000099;
             border: #c5c1b2 3px solid;
             border-radius: 7px;
@@ -42,6 +42,11 @@ body{
                 font-size: 2.3rem;
                 color:#c5c1b2;
                 padding-left: 10px;
+                text-shadow:
+                2px 2px 0 #000,
+                -2px 2px 0 #000,
+                -2px -2px 0 #000,
+                2px -2px 0 #000;
             }
             #inputNombre{
                 width: 27rem;
@@ -55,17 +60,56 @@ body{
                 color:#c5c1b2;
                 padding: .5em;
             }
-            #puntajeContainer{
+            #vidaContainer{
                 display: flex;
-                padding-right: 10px;
-                .puntajeText{
-                    color: #c5c1b2;
-                    font-size: 2.3rem;
+                flex-direction: column;
+                align-items: flex-start;
+                .vidaText{
+                    padding-left: 20px;
+                    color: #666691;
+                    font-size: 1.7rem;
+                    text-shadow:
+                    2px 2px 0 #000,
+                    -2px 2px 0 #000,
+                    -2px -2px 0 #000,
+                    2px -2px 0 #000;
                 }
             }
         }
+        #puntajeContainer{
+            width: 800px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-bottom: 10px;
+            .puntajeText{
+                color: #c5c1b2;
+                font-size: 2.3rem;
+                text-shadow:
+                2px 2px 0 #000,
+                -2px 2px 0 #000,
+                -2px -2px 0 #000,
+                2px -2px 0 #000;
+            }
+        }
+        #containerHighscore{
+            width: 800px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-bottom: 20px;
+            #highscoreText{
+                color: #c5c1b2;
+                font-size: 2.3rem;
+                text-shadow:
+                2px 2px 0 #000,
+                -2px 2px 0 #000,
+                -2px -2px 0 #000,
+                2px -2px 0 #000;
+            }
+        }
         #coinContainer{ 
-            margin-bottom: 70px;
+            margin-bottom: 20px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -108,6 +152,24 @@ body{
             padding: 20px;
             display: flex;
             align-items: center;
+            .mensajeText{
+                color: #c5c1b2;
+                font-size: 2.2rem;
+                margin-right: 8px;
+            }
+            .mensajeItem{
+                color: #d66253;
+                font-size: 2.2rem;
+            }
+        }
+        .mensajeCardVida{
+            width: 600px;
+            background-color: #000000bf;
+            margin-bottom: 70px;
+            border: #ebebeb8c 3px solid;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
             .mensajeText{
                 color: #c5c1b2;
                 font-size: 2.2rem;
@@ -163,20 +225,36 @@ body{
                 }
             }
         }
-        #containerHighscore{
-            width: 800px;
+        #containerReload{
             display: flex;
-            justify-content: flex-start;
+            justify-content: center;
             align-items: center;
-            #highscoreText{
+            margin-bottom: 70px;
+            .boton{
                 color: #c5c1b2;
-                font-size: 2.3rem;
-                text-shadow:
-                2px 2px 0 #000,
-                -2px 2px 0 #000,
-                -2px -2px 0 #000,
-                2px -2px 0 #000;
+                font-size: 1rem;
+                width: 200px;
+                height: 50px;
+                border: #c5c1b2 1px solid;
+                border-radius: 5px;
+                background-color: #000000f0;
             }
+            .botonDown{
+                background-color: #222222d2;
+            }
+        }
+    }
+    .footer{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color:#000000f0;
+        padding: 30px;
+        border-top: #c5c1b2 2px solid;
+        .footerText{
+            color: #c5c1b2;
+            font-size: 1.2rem;
         }
     }
 }

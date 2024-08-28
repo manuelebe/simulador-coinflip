@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <img src="./imagenes/dungeon1.webp" class="background">
@@ -19,9 +20,16 @@
                 <input type="text" minlength="1" maxlength="10" placeholder="Insertar personaje" required oninvalid="this.setCustomValidity('Ingresa un nombre')"
                 oninput="this.setCustomValidity('')" id="inputNombre">
             </form>
-            <div id="puntajeContainer">
-                <h2 class="puntajeText">Puntaje total: 0</h2>
+            <div id="vidaContainer">
+                <h2 class="vidaText">Vida</h2>
+                <img src="./imagenes/barrasDeVida/vida10.png" class="vidaImg">
             </div>
+        </div>
+        <div id="puntajeContainer">
+            <h2 class="puntajeText">Puntaje total: 0</h2>
+        </div>
+        <div id="containerHighscore">
+            <h2 id="highscoreText">Puntaje más alto: 0</h2>
         </div>
         <div id="coinContainer">
             <img src="./imagenes/coin.webp" id="coinImg">
@@ -39,11 +47,16 @@
             <h2 class="inventarioText">Inventario:</h2>
         </div>
         <div id="containerInventario"></div>
-        <div id="containerHighscore">
-            <h2 id="highscoreText">Puntaje más alto: 0</h2>
+        <div id="containerReload">
+            <button id="botonReload" class="boton">
+                <h2>Reiniciar progreso</h2>
+            </button>
         </div>
     </main>
-    <script src="./js/items.js"></script>
+    <footer class="footer">
+        <h2 class="footerText">Basado en Fear and Hunger de Miro Haverinen</h2>
+        <h2 class="footerText">Página desarrollada por Manuel Eberhardt</h2>
+    </footer>
     <script src="./js/main.js"></script>
 </body>
 </html>

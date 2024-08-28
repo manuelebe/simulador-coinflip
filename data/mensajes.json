@@ -1,0 +1,30 @@
+[
+    {
+        "mensaje": "¡Un guardia te ataca mientras estás despistado!",
+        "daño": 20
+    },
+    {
+        "mensaje": "¡Activaste una trampa!",
+        "daño": 20
+    },
+    {
+        "mensaje": "¡Caes por un agujero en el suelo!",
+        "daño": 10
+    },
+    {
+        "mensaje": "El estrés te provoca dolores de cabeza...",
+        "daño": 10
+    },
+    {
+        "mensaje": "Una presencia terrorífica ha entrado a la sala...",
+        "daño": 30
+    },
+    {
+        "mensaje": "El hambre te provoca dolores estomacales...",
+        "daño": 10
+    },
+    {
+        "mensaje": "¡Pisaste un clavo oxidado!",
+        "daño": 10
+    }
+]

@@ -1,5 +1,6 @@
 let resultado;
 let lado;
+let vida = 100;
 const documentMain = document.getElementById("main");
 const puntajeContainer = document.getElementById("puntajeContainer");
 const topContainer = document.getElementById("topContainer");
@@ -14,10 +15,15 @@ const mensajeContainer = document.getElementById("mensajeContainer");
 const coinImg = document.getElementById("coinImg");
 const coinContainer = document.getElementById("coinContainer");
 const ultimoHighscore = parseFloat(localStorage.getItem("puntaje"));
+const ultimoInventario = localStorage.getItem("inventario");
+const ultimoPersonaje = localStorage.getItem("personaje");
 const highscoreText = document.getElementById("highscoreText");
+const botonReload = document.getElementById("botonReload");
+const vidaContainer = document.getElementById("vidaContainer");
 
 const personaje = [];
 const inventarioCrear = [];
+const inventarioActual = [];
 const puntos = [];
 const totalPuntos = [];
 
@@ -64,15 +70,32 @@ function crearPersonaje(el){
     nombreText.innerText = inputNombre.value;
     nombreText.className = "nombreText";
 
+    localStorage.personaje = inputNombre.value;
+    personaje.push(inputNombre.value);
+
     topContainer.prepend(nombreText);
     inputNombre.remove();
 }
-function items(){
+function cargarPersonaje(){
+    const nombreText = document.createElement("h2");
+    nombreText.innerText = ultimoPersonaje;
+    nombreText.className = "nombreText";
+
+    personaje.push(ultimoPersonaje);
+
+    topContainer.prepend(nombreText);
+    inputNombre.remove();
+}
+async function items(){
+    const response = await fetch('./data/itemlist.json');
+    const itemlist = await response.json();
     resultado = itemRandom();
     inventarioCrear.unshift(itemlist[resultado]);
     inventarioCrear.forEach(el => {
         crearItem(el);
     })
+    inventarioActual.push(itemlist[resultado]);
+    localStorage.inventario = JSON.stringify(inventarioActual);
     puntos.unshift(itemlist[resultado].puntaje);
     
     let puntajeTotal = 0;
@@ -82,6 +105,10 @@ function items(){
         highscoreText.innerText = "Puntaje más alto: " + totalPuntos[0];
         localStorage.puntaje = totalPuntos[0];
     }
+    puntajeText.innerText = "Puntaje total: " + totalPuntos[0];
+    clearAlert();
+    alertWin();
+    crearMoneda();
 }
 function clearItems(){
     inventarioCrear.shift();
@@ -102,6 +129,53 @@ function crearMoneda(){
         coinContainer.prepend(coinResultado);
     }
 }
+function crearVida(img){
+    const vidaImg = document.querySelector(".vidaImg");
+    vidaImg?.remove();
+
+    const vidaActual = document.createElement("img");
+    vidaActual.src = "./imagenes/barrasDeVida/vida" + img + ".png";
+    vidaActual.className = "vidaImg";
+
+    vidaContainer.append(vidaActual);
+}
+function calcularDaño(daño){
+    vida = vida - daño;
+    if(vida >= 90 && vida < 100){
+        crearVida(9);
+    } else if(vida >= 80 && vida < 90){
+        crearVida(8);
+    } else if(vida >= 70 && vida < 80){
+        crearVida(7);
+    } else if(vida >= 60 && vida < 70){
+        crearVida(6);
+    } else if(vida >= 50 && vida < 60){
+        crearVida(5);
+    } else if(vida >= 40 && vida < 50){
+        crearVida(4);
+    } else if(vida >= 30 && vida < 40){
+        crearVida(3);
+    } else if(vida >= 20 && vida < 30){
+        crearVida(2);
+    } else if(vida >= 10 && vida < 20){
+        crearVida(1);
+    } else if(vida <= 0){
+        crearVida(0);
+        Swal.fire({
+            title: personaje[0] + " ha muerto...",
+            text: "Tu partida sera reiniciada.",
+            timer: 3000,
+            showConfirmButton: false,
+            background: "#000000f0",
+            color: "#c5c1b2",
+        })
+        .then(() => {
+            localStorage.removeItem("personaje");
+            localStorage.removeItem("inventario");
+            window.location.reload();
+        })
+    }
+}
 function alertWin(){
     const card = document.createElement("div");
     card.className = "mensajeCard";
@@ -118,34 +192,90 @@ function alertWin(){
     card.append(itemText);
     mensajeContainer.append(card);
 }
-function alertFail(){
-    const card = document.createElement("div");
-    card.className = "mensajeCard";
+async function alertFail(){
+    let chanceFail = Math.floor(Math.random() * 3) + 1;
+    if(chanceFail === 1){
+        const card = document.createElement("div");
+        card.className = "mensajeCard";
 
-    const mensajeText = document.createElement("h2");
-    mensajeText.innerText = "Desafortunadamente no recibiste nada...";
-    mensajeText.className = "mensajeText";
+        const mensajeText = document.createElement("h2");
+        mensajeText.innerText = "Desafortunadamente no recibiste nada...";
+        mensajeText.className = "mensajeText";
 
-    card.append(mensajeText);
-    mensajeContainer.append(card);
+        card.append(mensajeText);
+        mensajeContainer.append(card);
+    } else{
+        const response = await fetch('./data/mensajes.json');
+        const mensajes = await response.json();
+        let chanceMensaje = Math.floor(Math.random() * 7);
+
+        const card = document.createElement("div");
+        card.className = "mensajeCardVida";
+
+        const mensajeText = document.createElement("h2");
+        mensajeText.innerText = mensajes[chanceMensaje].mensaje;
+        mensajeText.className = "mensajeText";
+
+        const alertVida = document.createElement("h2");
+        alertVida.innerText = "Pierdes " + mensajes[chanceMensaje].daño + " de vida...";
+        alertVida.className = "mensajeItem";
+
+        card.append(mensajeText);
+        card.append(alertVida);
+        mensajeContainer.append(card);
+
+        calcularDaño(mensajes[chanceMensaje].daño);
+    }
 }
 function clearAlert(){
     const removeCoinResultado = document.querySelector(".coinResultado");
     const mensajeCard = document.querySelector(".mensajeCard");
+    const mensajeCardVida = document.querySelector(".mensajeCardVida");
     removeCoinResultado?.remove();
     mensajeCard?.remove();
+    mensajeCardVida?.remove();
+}
+function botonClick(value){
+    resultadoMoneda();
+    if(lado === value){
+        clearItems();
+        items();
+    } else{
+        clearAlert();
+        alertFail();
+        crearMoneda();
+    }
+}
+function alertPersonaje(){
+    Swal.fire({
+        title: "Ingresa el nombre de tu personaje antes de comenzar",
+        icon: "error",
+        timer: 2000,
+        showConfirmButton: false,
+        background: "#000000f0",
+        color: "#c5c1b2",
+    })
 }
 
 //--------------------------------------------------------------------------------
 
-formNombre.addEventListener("submit", crearPersonaje);
+ultimoPersonaje ? cargarPersonaje() : formNombre.addEventListener("submit", crearPersonaje);
 
 if(isNaN(ultimoHighscore)){
     highscoreText.innerText = "Puntaje más alto: 0";
 } else{
     highscoreText.innerText = "Puntaje más alto: " + localStorage.puntaje;
 }
-
+JSON.parse(ultimoInventario)?.forEach(el => {
+    crearItem(el);
+    inventarioActual.push(el);
+    puntos.unshift(el.puntaje);
+    let puntajeTotal = 0;
+    puntos.forEach(el => puntajeTotal += el);
+    totalPuntos.unshift(puntajeTotal);
+    puntajeText.innerText = "Puntaje total: " + totalPuntos[0];
+    totalPuntos.shift(puntajeTotal);
+})
 botones.forEach(function(el){
     el.addEventListener("mousedown", function(){
         el.className = "boton botonDown";
@@ -155,32 +285,25 @@ botones.forEach(function(el){
     })
 })
 botonCara.addEventListener("click", () =>{
-    resultadoMoneda();
-    if(lado === "cara"){
-        clearItems();
-        items();
-        puntajeText.innerText = "Puntaje total: " + totalPuntos[0];
-        clearAlert();
-        alertWin();
-        crearMoneda();
-    } else{
-        clearAlert();
-        alertFail();
-        crearMoneda();
-    }
+    personaje[0] ? botonClick("cara") : alertPersonaje();
 })
 botonCruz.addEventListener("click", () =>{
-    resultadoMoneda();
-    if(lado === "cruz"){
-        clearItems();
-        items();
-        puntajeText.innerText = "Puntaje total: " + totalPuntos[0];
-        clearAlert();
-        alertWin();
-        crearMoneda();
-    } else{
-        clearAlert();
-        alertFail();
-        crearMoneda();
-    }
+    personaje[0] ? botonClick("cruz") : alertPersonaje();
+})
+botonReload.addEventListener("click", () =>{
+    Swal.fire({
+        title: "¿Estas seguro de que quieres reiniciar tu progreso?",
+        text: "Esta acción borrará tu puntaje más alto, tu personaje e inventario actual.",
+        showDenyButton: true,
+        confirmButtonText: "Reiniciar",
+        denyButtonText: `Cancelar`,
+        background: "#000000f0",
+        color: "#c5c1b2",
+        confirmButtonColor: "#44444499",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            localStorage.clear();
+            window.location.reload();
+        }
+    });
 })
