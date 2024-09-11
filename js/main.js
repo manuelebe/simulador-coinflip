@@ -1,6 +1,6 @@
 let resultado;
 let lado;
-let vida = 100;
+let vida;
 const documentMain = document.getElementById("main");
 const puntajeContainer = document.getElementById("puntajeContainer");
 const topContainer = document.getElementById("topContainer");
@@ -17,6 +17,7 @@ const coinContainer = document.getElementById("coinContainer");
 const ultimoHighscore = parseFloat(localStorage.getItem("puntaje"));
 const ultimoInventario = localStorage.getItem("inventario");
 const ultimoPersonaje = localStorage.getItem("personaje");
+const ultimaVida = parseFloat(localStorage.getItem("vida"));
 const highscoreText = document.getElementById("highscoreText");
 const botonReload = document.getElementById("botonReload");
 const vidaContainer = document.getElementById("vidaContainer");
@@ -141,6 +142,7 @@ function crearVida(img){
 }
 function calcularDaño(daño){
     vida = vida - daño;
+    localStorage.vida = vida;
     if(vida >= 90 && vida < 100){
         crearVida(9);
     } else if(vida >= 80 && vida < 90){
@@ -172,6 +174,7 @@ function calcularDaño(daño){
         .then(() => {
             localStorage.removeItem("personaje");
             localStorage.removeItem("inventario");
+            localStorage.removeItem("vida");
             window.location.reload();
         })
     }
@@ -265,6 +268,12 @@ if(isNaN(ultimoHighscore)){
     highscoreText.innerText = "Puntaje más alto: 0";
 } else{
     highscoreText.innerText = "Puntaje más alto: " + localStorage.puntaje;
+}
+if(isNaN(ultimaVida)){
+    vida = 100;
+} else{
+    vida = ultimaVida;
+    calcularDaño(0);
 }
 JSON.parse(ultimoInventario)?.forEach(el => {
     crearItem(el);
